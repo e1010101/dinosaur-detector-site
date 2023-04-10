@@ -15,6 +15,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Stack } from "@mui/material";
 import Image from "mui-image";
+import { HideSource } from "@mui/icons-material";
 
 const theme = createTheme();
 
@@ -23,6 +24,8 @@ const App = () => {
   const [label, setLabel] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage));
@@ -48,6 +51,7 @@ const App = () => {
     };
 
     try {
+      setLoading(true);
       const base64Image = await fileToBase64(image);
 
       const response = await fetch(
@@ -71,7 +75,9 @@ const App = () => {
       console.log("confidence:", confidence);
       setProbability(confidence);
       setLabel(label);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching data from Huggingface API:", error);
     }
   };
@@ -131,13 +137,17 @@ const App = () => {
                 variant="contained"
                 onClick={() => handleImageUpload(selectedImage)}
               >
-                Check for dinosaur!
+                {loading ? <>Loading..</> : <>Check for dinosaur!</>}
               </Button>
+              <Box id="loading"></Box>
             </Stack>
           </Box>
           <Typography component="h1" variant="h3">
             {probability !== null &&
-              probability * 100 + "% certain: " + label + ""}
+              Number.parseFloat(probability * 100).toFixed(2) +
+                "% certain: " +
+                label +
+                ""}
           </Typography>
         </Box>
       </Container>
