@@ -12,8 +12,28 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Image from "mui-image";
+import "./App.css";
+import Helvetica from "./fonts/HelveticaNeueLTPro-Roman.otf";
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: "Helvetica, Arial",
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        @font-face {
+          font-family: 'Helvetica';
+          font-style: normal;
+          font-display: swap;
+          font-weight: 400;
+          src: local('Helvetica'), local('Helvetica'), url(${Helvetica}) format('otf');
+          unicodeRange: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF;
+        }
+      `,
+    },
+  },
+});
 
 const App = () => {
   const [probability, setProbability] = useState(null);
@@ -101,13 +121,17 @@ const App = () => {
               href="https://github.com/e1010101/dinosaur-detector-site"
               underline="hover"
             >
-              Github
+              <Typography component="body1" variant="button">
+                Github
+              </Typography>
             </Link>
             <Link
               href="https://huggingface.co/spaces/e1010101/dinosaur-detector"
               underline="hover"
             >
-              Huggingface
+              <Typography component="body1" variant="button">
+                Huggingface
+              </Typography>
             </Link>
           </Stack>
           <Typography component="h1" variant="h1">
