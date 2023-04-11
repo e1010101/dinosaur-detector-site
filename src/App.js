@@ -1,21 +1,17 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import Avatar from "@mui/material/Avatar";
+import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import TerminalIcon from "@mui/icons-material/Terminal";
+import SaveIcon from "@mui/icons-material/Save";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Stack } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Image from "mui-image";
-import { HideSource } from "@mui/icons-material";
 
 const theme = createTheme();
 
@@ -88,19 +84,36 @@ const App = () => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 4,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 1, sm: 2, md: 4 }}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <TerminalIcon />
+            <Link
+              href="https://github.com/e1010101/dinosaur-detector-site"
+              underline="hover"
+            >
+              Github
+            </Link>
+            <Link
+              href="https://huggingface.co/spaces/e1010101/dinosaur-detector"
+              underline="hover"
+            >
+              Huggingface
+            </Link>
+          </Stack>
           <Typography component="h1" variant="h1">
             Dinosaur Detector
           </Typography>
-          <Box sx={{ mt: 1 }}>
+          <Box sx={{ mt: 1 }} alignItems="center">
             <input
               accept="image/*"
               type="file"
@@ -108,38 +121,49 @@ const App = () => {
               style={{ display: "none" }}
               onChange={(e) => setSelectedImage(e.target.files[0])}
             />
-            <Stack spacing={2} direction="column" alignItems="center">
+            {imageUrl && selectedImage && (
+              <Box mt={2} textAlign="center" sx={{ margin: 2 }}>
+                <div>Image Preview:</div>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Image
+                    src={imageUrl}
+                    alt={selectedImage.name}
+                    showLoading={true}
+                    width="50%"
+                    shiftDuration={900}
+                    easing="cubic-bezier(0.7, 0, 0.6, 1)"
+                  />
+                </Box>
+              </Box>
+            )}
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ xs: 1, sm: 2, md: 4 }}
+              justifyContent="center"
+              alignItems="center"
+            >
               <label htmlFor="select-image">
                 <Button variant="contained" color="primary" component="span">
                   Upload Image
                 </Button>
               </label>
-              {imageUrl && selectedImage && (
-                <Box mt={2} textAlign="center">
-                  <div>Image Preview:</div>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
-                  >
-                    <Image
-                      src={imageUrl}
-                      alt={selectedImage.name}
-                      showLoading={true}
-                      width="50%"
-                      shiftDuration={900}
-                      easing="cubic-bezier(0.7, 0, 0.6, 1)"
-                    />
-                  </Box>
-                </Box>
+              {loading ? (
+                <LoadingButton
+                  loading
+                  loadingPosition="start"
+                  startIcon={<SaveIcon />}
+                  variant="outlined"
+                >
+                  Loading...
+                </LoadingButton>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={() => handleImageUpload(selectedImage)}
+                >
+                  Check Image
+                </Button>
               )}
-              <Button
-                variant="contained"
-                onClick={() => handleImageUpload(selectedImage)}
-              >
-                {loading ? <>Loading..</> : <>Check for dinosaur!</>}
-              </Button>
-              <Box id="loading"></Box>
             </Stack>
           </Box>
           <Typography component="h1" variant="h3">
