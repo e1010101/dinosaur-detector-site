@@ -120,6 +120,7 @@ const App = () => {
             <Link
               href="https://github.com/e1010101/dinosaur-detector-site"
               underline="hover"
+              target="_blank"
             >
               <Typography component="body1" variant="button">
                 Github
@@ -128,9 +129,19 @@ const App = () => {
             <Link
               href="https://huggingface.co/spaces/e1010101/dinosaur-detector"
               underline="hover"
+              target="_blank"
             >
               <Typography component="body1" variant="button">
                 Huggingface
+              </Typography>
+            </Link>
+            <Link
+              href="https://www.kaggle.com/code/e1010101/dinosaur-detector"
+              underline="hover"
+              target="_blank"
+            >
+              <Typography component="body1" variant="button">
+                Kaggle
               </Typography>
             </Link>
           </Stack>
