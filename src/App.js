@@ -77,7 +77,8 @@ const App = () => {
           body: JSON.stringify({ data: [base64Image] }),
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin":
+              "https://dinosaur-detector.netlify.app/",
             "Access-Control-Allow-Methods": "POST,PATCH,OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Authorization",
           },
